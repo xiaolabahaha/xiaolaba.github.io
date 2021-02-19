@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="小喇叭">
   <meta name="keywords" content="">
-  <title>Hello World - 小喇叭</title>
+  <title>tp5.1.x反序列化 - 小喇叭</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -67,7 +67,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>xiaolaba's Blog</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hello World">
+            <span class="h2" id="subtitle" title="tp5.1.x反序列化">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-19 14:50" pubdate>
-        2021年2月19日 下午
+      <time datetime="2020-06-06 00:21" pubdate>
+        2020年6月6日 凌晨
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      517 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      6
        分钟
     </span>
   
@@ -224,24 +224,46 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">tp5.1.x反序列化</h1>
             
             <div class="markdown-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+              <h2 id="0x01-环境搭建"><a href="#0x01-环境搭建" class="headerlink" title="0x01 环境搭建"></a>0x01 环境搭建</h2><p>linux+php7.3+apache2</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">composer create-project topthink/think=5.1.*-dev tp5.1<br>cd tp5.1<br>service apache2 start<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="0x02-POP链分析"><a href="#0x02-POP链分析" class="headerlink" title="0x02 POP链分析"></a>0x02 POP链分析</h2><p>一开始的链子入口没有变，和tp5.0.x的一样，Windows类</p>
+<p><img src="https://i.loli.net/2020/06/06/eYVQUAlj4ihGtZz.png" srcset="/img/loading.gif"></p>
+<p>搜搜__toString()方法，发现不再是Model类了，取而代之的是两个Trait</p>
+<h3 id="Trait"><a href="#Trait" class="headerlink" title="Trait"></a>Trait</h3><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs oxygene">自 PHP <span class="hljs-number">5.4</span>.<span class="hljs-number">0</span> 起，PHP 实现了一种代码复用的方法，称为 trait。 <br><br>Trait 是为类似 PHP 的单继承语言而准备的一种代码复用机制。Trait 为了减少单继承语言的限制，使开发人员能够自由地在不同层次结构内独立的类中复用 <span class="hljs-function"><span class="hljs-keyword">method</span>。<span class="hljs-title">Trait</span> 和 <span class="hljs-title">Class</span> 组合的语义定义了一种减少复杂性的方式，避免传统多继承和 <span class="hljs-title">Mixin</span> 类相关典型问题。 </span><br><span class="hljs-function"></span><br><span class="hljs-function"><span class="hljs-title">Trait</span> 和 <span class="hljs-title">Class</span> 相似，但仅仅旨在用细粒度和一致的方式来组合功能。无法通过 <span class="hljs-title">trait</span> 自身来实例化。它为传统继承增加了水平特性的组合；也就是说，应用的几个 <span class="hljs-title">Class</span> 之间不需要继承。 </span><br><span class="hljs-function"></span><br></code></pre></td></tr></table></figure>
+<p>刚好Model类use了其中一个trait，所以还是可以用Model类。</p>
+<p><img src="https://i.loli.net/2020/06/06/Ez7VO8rgt3BUkxH.png" srcset="/img/loading.gif"></p>
+<p>再看看Conversion.php，toArray()方法有变化，看到有两个利用点。</p>
+<p><img src="https://i.loli.net/2020/06/06/oBcvVZ8ubGl6fwi.png" srcset="/img/loading.gif"></p>
+<p>第一个visible()应该可以接上5.0.x后半段的链子，实现任意文件生成（还没尝试）</p>
+<p>看看第二个点，文件中搜不到该方法，全局搜一下，在Attribute.php找到，并看到了RCE点</p>
+<p><img src="https://i.loli.net/2020/06/06/nTkA8tFv1EgRVZz.png" srcset="/img/loading.gif"></p>
+<p>可以动态执行函数，令withAttr[$filename] = ‘system’, $value = ‘payload’,就可以执行系统命令了，而第二个参数$this-&gt;data不影响函数执行</p>
+<p><img src="https://i.loli.net/2020/06/06/C5QEJGRmVe9wIjs.png" srcset="/img/loading.gif"></p>
+<p>其中 command为要执行的命令，return_var用于存放执行结果。</p>
+<p>value从getData()里来，再看看这个函数</p>
+<p><img src="https://i.loli.net/2020/06/06/Nd1WOCcqZYRFfal.png" srcset="/img/loading.gif"></p>
+<p>可以控制this-&gt;data[$name]，从而控制value。由此这条链就分析完毕</p>
+<h2 id="0x03-构造payload"><a href="#0x03-构造payload" class="headerlink" title="0x03 构造payload"></a>0x03 构造payload</h2><p>……</p>
+<h2 id="0x04-效果"><a href="#0x04-效果" class="headerlink" title="0x04 效果"></a>0x04 效果</h2><p><img src="https://i.loli.net/2020/06/06/nrol5f9sRyQajWv.png" srcset="/img/loading.gif"></p>
+<p>参考[<a target="_blank" rel="noopener" href="https://nikoeurus.github.io/2019/12/31/ThinkPHP%205.1.x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA]">https://nikoeurus.github.io/2019/12/31/ThinkPHP%205.1.x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA]</a>(<a target="_blank" rel="noopener" href="https://nikoeurus.github.io/2019/12/31/ThinkPHP">https://nikoeurus.github.io/2019/12/31/ThinkPHP</a> 5.1.x反序列化/#环境搭建)</p>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/tp5/">tp5</a>
+                    
+                  </div>
                 
               </div>
               
@@ -252,9 +274,21 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2020/06/06/tp6-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">tp6.0.x反序列化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2020/06/05/tp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <span class="hidden-mobile">tp5.0.x反序列化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

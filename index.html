@@ -51,7 +51,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>xiaolaba's Blog</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -146,7 +146,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="An elegant Material-Design theme for Hexo">
+            <span class="h2" id="subtitle" title="好好学习，天天向上">
               
             </span>
 
@@ -181,11 +181,332 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2021/02/19/hello-world/">Hello World</a>
+        <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-RealWorld-CTF-2020-oldsystem/">JAVA反序列化题目-RealWorld CTF 2020 oldsystem</a>
       </h1>
 
       <p class="index-excerpt">
-        <a href="/2021/02/19/hello-world/">
+        <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-RealWorld-CTF-2020-oldsystem/">
+          
+          
+            
+          
+          JAVA反序列化题目-RealWorld CTF 2020 oldsystem审题1.题目的jdk版本是1.4
+存在的类和库
+
+看到commons-collections和commons-beautils就想到了反序列化
+看到web.xml，存在一个路由/object
+
+看到org.rwctf.ObjectServlet，它继承了HttpServlet,在它的init方法中，定义了一个appCla
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-19 15:45" pubdate>
+              2021-02-19
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java%E9%A2%98%E7%9B%AE/">java题目</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-Final/">JAVA反序列化题目-网鼎杯 2020 Final</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E7%BD%91%E9%BC%8E%E6%9D%AF-2020-Final/">
+          
+          
+            
+          
+          JAVA反序列化题目-网鼎杯 2020 Final0x00 richfaces介绍RichFaces是一个开放源代码的JavaServer Faces组件库，帮助企业级Java应用程序集成AJAX相关的功能，由WildFly（原名JBoss）提供支援。
+0X01漏洞介绍richfaces有两种加载资源的方式，一种是在url里加/DATB/,一种是在url里加/DATA/，它们前面表示的是类位置，后
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-19 15:43" pubdate>
+              2021-02-19
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java%E9%A2%98%E7%9B%AE/">java题目</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E5%BC%BA%E7%BD%91%E6%9D%AF-2018-%E5%BD%A9%E8%9B%8B/">JAVA反序列化题目-强网杯 2018 彩蛋</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/19/JAVA%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E9%A2%98%E7%9B%AE-%E5%BC%BA%E7%BD%91%E6%9D%AF-2018-%E5%BD%A9%E8%9B%8B/">
+          
+          
+            
+          
+          JAVA反序列化题目-强网杯 2018 彩蛋Shiro漏洞说明Apache Shiro是一个开源安全框架，提供身份验证、授权、密码学和会话管理。在Apache Shiro &lt;= 1.2.4版本中存在反序列化漏洞。
+
+Shiro会以header中cookie的一个值Remember Me来进行对未经过身份验证(没有账号密码)的用户进行验证
+Remember Me的值会经过以下操作
+1.base
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-19 14:31" pubdate>
+              2021-02-19
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java%E9%A2%98%E7%9B%AE/">java题目</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/07/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/">python反序列化学习</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/07/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+          
+          
+            
+          
+          0x01 介绍python的序列化和反序列化主要有两个模块，json和pickle模块
+json：
+12345678import json a = &#123;&#x27;name&#x27; : &#x27;kobe&#x27;&#125;s = json.dumps(a)print(s)b = json.loads(s)print(b)
+
+pickle:
+123456789101112impo
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-07 11:27" pubdate>
+              2020-06-07
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">python反序列化</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/06/tp6-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">tp6.0.x反序列化</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/06/tp6-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+          
+          
+            
+          
+          0x01 环境搭建直接白嫖安洵杯iamthinking的源码，开搞
+0x02 POP链分析全局搜__destruct()，发现windows类不见了，找一下其他类，找到Model类，它比之前多了个__destruct()
+
+跟进save()
+
+调用了几个函数，重点在updateData()，继续跟进
+
+再跟进db()
+
+发现了熟悉的字符串拼接，后面就和tp5.1.x的链子一样了，最终实现RCE。
+
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-06 19:53" pubdate>
+              2020-06-06
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/tp6/">tp6</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/06/tp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">tp5.1.x反序列化</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/06/tp5-1-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+          
+          
+            
+          
+          0x01 环境搭建linux+php7.3+apache2
+123composer create-project topthink/think=5.1.*-dev tp5.1cd tp5.1service apache2 start
+
+
+0x02 POP链分析一开始的链子入口没有变，和tp5.0.x的一样，Windows类
+
+搜搜__toString()方法，发现不再是Model类了，取而代之的是
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-06 00:21" pubdate>
+              2020-06-06
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/tp5/">tp5</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/05/tp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">tp5.0.x反序列化</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/05/tp5-0-x%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+          
+          
+            
+          
+          0x01 环境搭建linux+php7.3+thinkphp5.0.24
+tp5.0.24源码下载地址：http://www.thinkphp.cn/donate/download/id/1279.html
+下载好后修改application/index/controller/Index.php里代码,反序列前加个base64解码是为了防止有些属性为protecte或private，传参会出现点问
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2020-06-05 13:41" pubdate>
+              2020-06-05
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/tp5/">tp5</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2020/06/04/hello-world/">Hello World</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2020/06/04/hello-world/">
           
           
             
@@ -199,8 +520,8 @@ Quick
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-19 14:50" pubdate>
-              2021-02-19
+            <time datetime="2020-06-04 19:53" pubdate>
+              2020-06-04
             </time>
           </div>
         
